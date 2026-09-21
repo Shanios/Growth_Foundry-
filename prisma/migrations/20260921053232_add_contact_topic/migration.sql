@@ -1,2 +1,3 @@
--- AlterTable
-ALTER TABLE `contactsubmission` ADD COLUMN `topic` VARCHAR(191) NULL;
+
+ALTER TABLE `ContactSubmission`
+ADD COLUMN `topic` VARCHAR(191) NULL;
