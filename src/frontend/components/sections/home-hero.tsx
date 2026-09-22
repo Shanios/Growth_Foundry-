@@ -4,17 +4,16 @@ import Link from "next/link";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { PixelWaveImage } from "@/frontend/components/interactive/pixel-wave-image";
-
-gsap.registerPlugin(ScrollTrigger);
+import { HeroGridBackground } from "@/frontend/components/interactive/hero-grid-background";
 
 export function HomeHero() {
   const heroRef = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
       const timeline = gsap.timeline({
         defaults: {
           ease: "power3.out",
@@ -28,42 +27,34 @@ export function HomeHero() {
           duration: 0.9,
         })
         .from(
-          ".hero-title",
+          ".hero-title-main",
           {
-            x: -120,
+            x: -64,
             opacity: 0,
-            duration: 1.5,
+            duration: 1.1,
           },
-          "-=0.45"
+          "-=0.35"
         )
         .from(
-          ".hero-copy",
+          ".hero-title-accent",
+          { x: -36, opacity: 0, duration: 1.05 },
+          "-=0.72"
+        )
+        .from(
+          ".hero-copy > p",
           {
-            x: 120,
+            x: 28,
+            y: 12,
             opacity: 0,
-            duration: 1.5,
+            duration: 0.95,
           },
-          "-=1.1"
-        );
-
-      gsap.fromTo(
-        ".hero-visual",
-        {
-          y: 140,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.4,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".hero-visual",
-            start: "top 90%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
+          "-=0.75"
+        )
+        .from(".hero-copy .text-link", {
+          y: 12, opacity: 0, duration: 0.8,
+        }, "-=0.55");
+      });
+      return () => mm.revert();
     },
     {
       scope: heroRef,
@@ -76,15 +67,16 @@ export function HomeHero() {
       className="hero page-shell"
     >
       <div className="hero-intro">
+        <HeroGridBackground />
         <p className="eyebrow hero-eyebrow">
           Independent strategy and transformation partner
         </p>
 
         <div className="hero-grid">
           <h1 className="hero-title">
-            Growth,
+            <span className="hero-title-main">Growth,</span>
             <br />
-            <span>made executable.</span>
+            <span className="hero-title-accent">made executable.</span>
           </h1>
 
           <div className="hero-copy">
@@ -104,9 +96,6 @@ export function HomeHero() {
         </div>
       </div>
 
-      <div className="hero-visual">
-        <PixelWaveImage />
-      </div>
     </section>
   );
 }

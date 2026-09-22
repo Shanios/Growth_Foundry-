@@ -21,25 +21,16 @@ export function BlogReveal({
 
   useGSAP(
     () => {
-      gsap.fromTo(
-        ".blog-reveal-item",
-        {
-          y: 120,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.1,
-          stagger: 0.14,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        }
-      );
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.utils.toArray<HTMLElement>(".blog-reveal-item").forEach((card) => {
+          gsap.fromTo(card, { y: 32, opacity: 0 }, {
+            y: 0, opacity: 1, duration: 0.95, ease: "power3.out",
+            scrollTrigger: { trigger: card, start: "top 88%", once: true },
+          });
+        });
+      });
+      return () => mm.revert();
     },
     {
       scope: sectionRef,

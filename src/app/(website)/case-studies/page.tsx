@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import Image from "next/image";
+import { ImageReveal } from "@/frontend/components/interactive/image-reveal";
 import Link from "next/link";
 import { CaseStudiesHero } from "@/frontend/components/sections/case-studies-hero";
 import { CaseStudiesReveal } from "@/frontend/components/sections/case-studies-reveal";
@@ -99,6 +100,7 @@ export default async function CaseStudiesPage() {
           aria-label={`View ${item.title}`}
         >
 
+          <ImageReveal className="image-reveal--fill" parallax hoverZoom intensity="subtle">
           {item.image ? (
             <Image
               src={item.image}
@@ -115,6 +117,7 @@ export default async function CaseStudiesPage() {
               <span>GF</span>
             </div>
           )}
+          </ImageReveal>
 
         </Link>
 

@@ -3,6 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { primaryNavigation } from "@/frontend/data/navigation";
+import { articles, caseStudies, services } from "@/frontend/data/site-content";
+
+const previews = [
+  { description: "Explore the capabilities behind measurable growth.", featured: services[0].title, href: "/services" },
+  { description: "See selected outcomes from our client work.", featured: caseStudies[0].title, href: `/case-studies/${caseStudies[0].slug}` },
+  { description: "Read practical ideas for leaders in motion.", featured: articles[0].title, href: `/blog/${articles[0].slug}` },
+];
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -38,18 +45,23 @@ export function SiteHeader() {
         className="desktop-nav"
         aria-label="Primary navigation"
       >
-        {primaryNavigation.map((item) => {
+        {primaryNavigation.map((item, index) => {
           const active = isActive(item.href);
 
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={active ? "nav-active" : ""}
-              aria-current={active ? "page" : undefined}
-            >
-              {item.label}
-            </Link>
+            <div className="nav-preview-item" key={item.href}>
+              <Link href={item.href} className={active ? "nav-active" : ""} aria-current={active ? "page" : undefined}>
+                {item.label}
+              </Link>
+              <div className="nav-preview-panel">
+                <span className="nav-preview-kicker">Explore {item.label}</span>
+                <p>{previews[index].description}</p>
+                <Link className="nav-preview-feature" href={previews[index].href}>
+                  <span>{previews[index].featured}</span><span aria-hidden="true">↗</span>
+                </Link>
+                <Link className="nav-preview-all" href={item.href}>View all {item.label.toLowerCase()} <span aria-hidden="true">→</span></Link>
+              </div>
+            </div>
           );
         })}
       </nav>
@@ -76,22 +88,16 @@ export function SiteHeader() {
 
         <nav aria-label="Mobile navigation">
 
-          {primaryNavigation.map((item) => {
+          {primaryNavigation.map((item, index) => {
             const active = isActive(item.href);
 
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={
-                  active ? "nav-active" : ""
-                }
-                aria-current={
-                  active ? "page" : undefined
-                }
-              >
-                {item.label}
-              </Link>
+              <details className="mobile-nav-preview" key={item.href}>
+                <summary className={active ? "nav-active" : ""}>{item.label}</summary>
+                <p>{previews[index].description}</p>
+                <Link href={previews[index].href}>{previews[index].featured}</Link>
+                <Link href={item.href} aria-current={active ? "page" : undefined}>View all {item.label.toLowerCase()} →</Link>
+              </details>
             );
           })}
 

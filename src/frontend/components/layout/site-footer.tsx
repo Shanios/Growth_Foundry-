@@ -1,12 +1,13 @@
 import Link from "next/link";
+import { FooterReveal } from "@/frontend/components/interactive/home-section-reveals";
 
 export function SiteFooter() {
   return (
-    <footer className="site-footer">
+    <FooterReveal>
       <div className="footer-lead">
         <p className="eyebrow light">Ready when the ambition is.</p>
         <h2>Make the next stage<br />more deliberate.</h2>
-        <Link className="circle-link light" href="/contact" aria-label="Contact Growth Foundry">↗</Link>
+        <Link className="circle-link light" href="/contact" aria-label="Contact Growth Foundry"><span aria-hidden="true">↗</span></Link>
       </div>
       <div className="footer-grid">
         <div><span className="brand-mark inverse" aria-hidden="true">GF</span><p>Growth Foundry<br />Strategy into momentum.</p></div>
@@ -26,6 +27,6 @@ export function SiteFooter() {
         <div><p>Working across India<br />and international markets.</p><a href="mailto:hello@growthfoundry.co">hello@growthfoundry.co</a></div>
       </div>
       <div className="footer-meta"><span>© 2026 Growth Foundry</span><span>Temporary identity — brand system in development</span></div>
-    </footer>
+    </FooterReveal>
   );
 }

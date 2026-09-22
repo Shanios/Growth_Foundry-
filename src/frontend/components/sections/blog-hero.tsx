@@ -3,29 +3,35 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { CharacterText } from "@/frontend/components/interactive/character-text";
+import { HeroGridBackground } from "@/frontend/components/interactive/hero-grid-background";
 
 export function BlogHero() {
   const heroRef = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
       const tl = gsap.timeline({
         defaults: {
           ease: "power3.out",
         },
       });
 
-      tl.from(".blog-hero-black", {
-        x: -140,
+      tl.from(".blog-hero-black .character-reveal__character", {
+        x: -18,
         opacity: 0,
-        duration: 1.15,
+        duration: 0.34,
+        stagger: 0.024,
       })
         .from(
-          ".blog-hero-red",
+          ".blog-hero-red .character-reveal__character",
           {
-            x: -140,
+            x: -18,
             opacity: 0,
-            duration: 1.15,
+            duration: 0.34,
+            stagger: 0.024,
           },
           "-=0.5"
         )
@@ -38,6 +44,8 @@ export function BlogHero() {
           },
           "-=0.5"
         );
+      });
+      return () => mm.revert();
     },
     {
       scope: heroRef,
@@ -47,21 +55,23 @@ export function BlogHero() {
   return (
     <section
       ref={heroRef}
-      className="inner-hero page-shell blog-hero"
+      className="inner-hero page-shell blog-hero hero-intro"
+      style={{ minHeight: "100svh", color: "#fff" }}
     >
+      <HeroGridBackground />
       <p className="eyebrow">
-        Insights
+        Blog
       </p>
 
       <h1>
-        <span className="blog-hero-black">
-          Useful thinking for
+        <span className="blog-hero-black" aria-label="Useful thinking for">
+          <CharacterText>Useful thinking for</CharacterText>
         </span>
 
         <br />
 
-        <em className="blog-hero-red">
-          leaders in motion.
+        <em className="blog-hero-red" aria-label="leaders in motion." style={{ color: "#fff" }}>
+          <CharacterText>leaders in motion.</CharacterText>
         </em>
       </h1>
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ImageReveal } from "@/frontend/components/interactive/image-reveal";
 import Link from "next/link";
 
 import { PublicPage } from "@/frontend/components/layout/public-page";
@@ -8,7 +9,7 @@ import { prisma } from "@/lib/prisma";
 import { BlogHero } from "@/frontend/components/sections/blog-hero";
 import { BlogReveal } from "@/frontend/components/sections/blog-reveal";
 export const metadata: Metadata = {
-  title: "Insights",
+  title: "Blog",
   description:
     "Growth Foundry perspectives on strategy, commercial systems, and transformation.",
 };
@@ -118,6 +119,7 @@ export default async function BlogPage() {
           className="blog-card-image"
           aria-label={`Read ${article.title}`}
         >
+          <ImageReveal className="image-reveal--fill" parallax hoverZoom intensity="subtle">
           {article.image ? (
             <Image
               src={article.image}
@@ -131,6 +133,7 @@ export default async function BlogPage() {
               <span>GF</span>
             </div>
           )}
+          </ImageReveal>
         </Link>
 
         <div className="blog-card-content">

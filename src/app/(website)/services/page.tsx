@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { PublicPage } from "@/frontend/components/layout/public-page";
 import { ServicesHero } from "@/frontend/components/sections/services-hero";
-import {
-  servicePillars,
-  services,
-} from "@/frontend/data/site-content";
+import { CapabilityGrid } from "@/frontend/components/sections/capability-grid";
+import { ServicePillars } from "@/frontend/components/sections/service-pillars";
+import { CapabilitiesHeading } from "@/frontend/components/sections/capabilities-heading";
+import { ServicesProofHeading } from "@/frontend/components/sections/services-proof-heading";
+import { caseStudies } from "@/frontend/data/site-content";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -39,56 +41,7 @@ export default function ServicesPage() {
         </div>
 
 
-        <div className="service-pillar-list">
-
-          {servicePillars.map((pillar) => (
-            <article
-              className="service-pillar"
-              key={pillar.number}
-            >
-
-              <span className="service-pillar-number">
-                {pillar.number}
-              </span>
-
-
-              <div className="service-pillar-name">
-
-                <span className="service-pillar-label">
-                  {pillar.label}
-                </span>
-
-                <h2>
-                  {pillar.title}
-                </h2>
-
-              </div>
-
-
-              <div className="service-pillar-content">
-
-                <p>
-                  {pillar.description}
-                </p>
-
-                <div className="service-pillar-capabilities">
-
-                  {pillar.capabilities.map(
-                    (capability) => (
-                      <span key={capability}>
-                        {capability}
-                      </span>
-                    )
-                  )}
-
-                </div>
-
-              </div>
-
-            </article>
-          ))}
-
-        </div>
+        <ServicePillars />
 
       </section>
 
@@ -96,56 +49,29 @@ export default function ServicesPage() {
       {/* Detailed capabilities */}
       <section className="page-shell subpage-section">
 
-        <div className="capabilities-heading">
-
-          <p className="eyebrow">
-            Capabilities
-          </p>
-
-          <h2>
-            Four levers.
-            <br />
-            <em>One growth system.</em>
-          </h2>
-
-        </div>
+        <CapabilitiesHeading />
 
 
-        <div className="capability-grid">
+        <CapabilityGrid />
 
-          {services.map((service) => (
-            <article
-              className="capability-card"
-              key={service.number}
-            >
+      </section>
 
-              <span className="number">
-                {service.number}
-              </span>
-
-              <h2>
-                {service.title}
-              </h2>
-
-              <p>
-                {service.description}
-              </p>
-
-              <ul>
-                {service.capabilities.map(
-                  (capability) => (
-                    <li key={capability}>
-                      {capability}
-                    </li>
-                  )
-                )}
-              </ul>
-
-            </article>
+      <section className="services-proof page-shell" aria-labelledby="services-proof-title">
+        <ServicesProofHeading />
+        <div className="services-proof-list">
+          {caseStudies.map((study) => (
+            <Link className="services-proof-row" href="/case-studies" key={study.slug}>
+              <span className="services-proof-sector">{study.sector}</span>
+              <span className="services-proof-title">{study.title}</span>
+              <strong>{study.result}</strong>
+              <span className="services-proof-arrow" aria-hidden="true">↗</span>
+            </Link>
           ))}
-
         </div>
-
+        <div className="services-proof-action">
+          <p>Have a growth challenge worth working through?</p>
+          <Link href="/contact">Start a conversation <span aria-hidden="true">↗</span></Link>
+        </div>
       </section>
 
     </PublicPage>
